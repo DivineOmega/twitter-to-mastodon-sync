@@ -1,0 +1,20 @@
+{
+    "name": "divineomega/twitter-to-mastodon-sync",
+    "description": "A tool to sync Twitter tweets to a Mastodon account",
+    "require": {
+        "abraham/twitteroauth": "^0.7.2",
+        "rapidwebltd/rw-file-cache": "^1.0"
+    },
+    "license": "LGPL3",
+    "authors": [
+        {
+            "name": "Jordan Hall",
+            "email": "jordan@hall05.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "DivineOmega\\TwitterToMastodonSync\\": "src/"
+        }
+    }
+}
