@@ -3,7 +3,8 @@
     "description": "A tool to sync Twitter tweets to a Mastodon account",
     "require": {
         "abraham/twitteroauth": "^0.7.2",
-        "rapidwebltd/rw-file-cache": "^1.0"
+        "rapidwebltd/rw-file-cache": "^1.0",
+        "thecodingcompany/php-mastodon": "^1.0"
     },
     "license": "LGPL3",
     "authors": [
