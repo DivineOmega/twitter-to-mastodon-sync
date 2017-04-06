@@ -114,10 +114,20 @@ $mastondonAppDetails['domain'] = trim(fgets(STDIN));
 
 $mastodon = new Mastodon($mastondonAppDetails['domain']);
 $tokenInfo = $mastodon->createApp("TwitterToMastodonSync", "http://example.com/");
-
-var_dump($tokenInfo);
-
 $authUrl = $mastodon->getAuthUrl();
 
+echo PHP_EOL;
+echo PHP_EOL;
+echo 'Authorise the applicaton at the following URL and copy the authorization token it gives you.';
+echo PHP_EOL;
+echo PHP_EOL;
 echo $authUrl;
 echo PHP_EOL;
+echo PHP_EOL;
+
+echo 'Mastodon Authorization Token: ';
+$mastondonAppDetails['authorizationToken'] = trim(fgets(STDIN));
+
+$tokenInfo = $mastodon->getAccessToken($mastondonAppDetails['authorizationToken']);
+
+var_dump($tokenInfo);

@@ -4,7 +4,7 @@
     "require": {
         "abraham/twitteroauth": "^0.7.2",
         "rapidwebltd/rw-file-cache": "^1.0",
-        "thecodingcompany/php-mastodon": "dev-composer_psr4"
+        "thecodingcompany/php-mastodon": "dev-authorisation-process-fixes"
     },
     "license": "LGPL3",
     "authors": [
