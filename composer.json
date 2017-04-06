@@ -4,7 +4,7 @@
     "require": {
         "abraham/twitteroauth": "^0.7.2",
         "rapidwebltd/rw-file-cache": "^1.0",
-        "thecodingcompany/php-mastodon": "^1.0"
+        "thecodingcompany/php-mastodon": "dev-composer_psr4"
     },
     "license": "LGPL3",
     "authors": [
@@ -17,5 +17,11 @@
         "psr-4": {
             "DivineOmega\\TwitterToMastodonSync\\": "src/"
         }
-    }
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/DivineOmega/MastodonOAuthPHP",
+            "type": "git"
+        }
+    ]
 }

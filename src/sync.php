@@ -4,6 +4,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use rapidweb\RWFileCache\RWFileCache;
+use theCodingCompany\Mastodon;
 use DivineOmega\TwitterToMastodonSync\Objects\TweetToTootConvertor;
 
 $cacheDirectory = __DIR__.'/../cache/';
@@ -25,6 +26,7 @@ echo '------------------------------';
 echo PHP_EOL;
 echo PHP_EOL;
 
+/*
 $twitterAppDetails = $cache->get('twitterAppDetails');
 
 if ($twitterAppDetails) {
@@ -98,3 +100,24 @@ foreach($tweets as $tweet) {
 
     }
 }
+
+echo PHP_EOL;
+echo PHP_EOL;
+*/
+
+
+
+echo PHP_EOL;
+
+echo 'Mastodon Domain: ';
+$mastondonAppDetails['domain'] = trim(fgets(STDIN));
+
+$mastodon = new Mastodon($mastondonAppDetails['domain']);
+$tokenInfo = $mastodon->createApp("TwitterToMastodonSync", "http://example.com/");
+
+var_dump($tokenInfo);
+
+$authUrl = $mastodon->getAuthUrl();
+
+echo $authUrl;
+echo PHP_EOL;
