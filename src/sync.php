@@ -26,7 +26,13 @@ echo '------------------------------';
 echo PHP_EOL;
 echo PHP_EOL;
 
-/*
+echo 'Twitter Configuration';
+echo PHP_EOL;
+echo '---------------------';
+echo PHP_EOL;
+echo PHP_EOL;
+
+
 $twitterAppDetails = $cache->get('twitterAppDetails');
 
 if ($twitterAppDetails) {
@@ -102,32 +108,63 @@ foreach($tweets as $tweet) {
 }
 
 echo PHP_EOL;
-echo PHP_EOL;
-*/
 
-
-
+echo 'Mastodon Configuration';
 echo PHP_EOL;
-
-echo 'Mastodon Domain: ';
-$mastondonAppDetails['domain'] = trim(fgets(STDIN));
-
-$mastodon = new Mastodon($mastondonAppDetails['domain']);
-$tokenInfo = $mastodon->createApp("TwitterToMastodonSync", "http://example.com/");
-$authUrl = $mastodon->getAuthUrl();
-
-echo PHP_EOL;
-echo PHP_EOL;
-echo 'Authorise the applicaton at the following URL and copy the authorization token it gives you.';
-echo PHP_EOL;
-echo PHP_EOL;
-echo $authUrl;
+echo '---------------------';
 echo PHP_EOL;
 echo PHP_EOL;
 
-echo 'Mastodon Authorization Token: ';
-$mastondonAppDetails['authorizationToken'] = trim(fgets(STDIN));
+$mastodonAppDetails = $cache->get('mastodonAppDetails');
 
-$tokenInfo = $mastodon->getAccessToken($mastondonAppDetails['authorizationToken']);
+if ($mastodonAppDetails) {
+    do {
+        echo 'Would you like to use previously remembered Mastodon app details? [y/n]: ';
+        $useRemembered = trim(fgets(STDIN));
+    } while($useRemembered != 'y' && $useRemembered != 'n');
+}
 
-var_dump($tokenInfo);
+if (!$mastodonAppDetails || $useRemembered == 'n') {
+
+    echo PHP_EOL;
+
+    echo 'Mastodon Domain: ';
+    $mastodonDomain = trim(fgets(STDIN));
+
+    $mastodon = new Mastodon($mastodonDomain);
+    $mastodon->createApp("TwitterToMastodonSync", "https://github.com/DivineOmega/twitter-to-mastodon-sync");
+    $authUrl = $mastodon->getAuthUrl();
+
+    echo PHP_EOL;
+    echo 'Authorise the applicaton at the following URL and copy the authorization token it gives you.';
+    echo PHP_EOL;
+    echo PHP_EOL;
+    echo $authUrl;
+    echo PHP_EOL;
+    echo PHP_EOL;
+
+    echo 'Mastodon Authorization Token: ';
+    $authorizationToken = trim(fgets(STDIN));
+
+    $mastodon->getAccessToken($authorizationToken);
+
+    $mastodonAppDetails['domain'] = $mastodonDomain;
+    $mastodonAppDetails['credentials'] = $mastodon->getCredentials();
+
+    echo PHP_EOL;
+
+    do {
+        echo 'Would you like to remember these details? [y/n]: ';
+        $remember = trim(fgets(STDIN));
+    } while($remember != 'y' && $remember != 'n');
+
+    if ($remember == 'y') {
+        $cache->set('mastodonAppDetails', $mastodonAppDetails);
+    }
+
+}
+
+$mastodon = new Mastodon($mastodonAppDetails['domain']);
+$mastodon->setCredentials($mastodonAppDetails['credentials']);
+
+var_dump($mastodon->getStatuses());
